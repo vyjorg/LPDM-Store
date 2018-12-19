@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: ms-store
+  cloud:
+    config:
+      allow-override: true
+      uri: 5.196.95.68:28088
+  jpa:
+    hibernate:
+      ddl-auto: validate
