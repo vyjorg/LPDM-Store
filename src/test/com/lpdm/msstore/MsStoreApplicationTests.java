@@ -1,4 +1,4 @@
-package java.com.lpdm.msstore;
+package com.lpdm.msstore;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
