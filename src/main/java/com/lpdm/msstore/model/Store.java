@@ -3,23 +3,26 @@ package com.lpdm.msstore.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "store", schema = "public")
 public class Store {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int id;
 
+    @NotNull
     @Column(length = 50)
     private String name;
 
-    @JsonIgnore
+    @NotNull
     @Column(name = "address_id")
     private int addressId;
 
     @Transient
+    @JsonIgnore
     private Location location;
 
     public Store() {

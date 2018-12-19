@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Component
-@FeignClient(name = "ms-${microservice.location.name}",
-        url = "${microservice.domain}"+":"+"${microservice.location.port}")
+@FeignClient(name = "ms-location",
+        url = "${microservice.domain:https://location.lpdm.kybox.fr}")
 public interface LocationProxy {
 
     @RequestMapping(value = "/locations/{id}",

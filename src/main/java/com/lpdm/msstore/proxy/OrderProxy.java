@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Component
-@FeignClient(name = "${microservice.order.name}",
-        url = "${microservice.domain}"+":"+"${microservice.order.port}")
+@FeignClient(name = "ms-order",
+        url = "${microservice.domain:https://order.lpdm.kybox.fr}")
 public interface OrderProxy {
 
     @RequestMapping(value = "orders/{id}",
