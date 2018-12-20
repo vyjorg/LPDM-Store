@@ -3,7 +3,7 @@ spring:
     name: ms-store
   cloud:
     config:
-      uri: http://5.196.95.68:28088
+      uri: https://config.lpdm.kybox.fr
       allow-override: true
   jpa:
     hibernate:
