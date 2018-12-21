@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-@RefreshScope
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
