@@ -39,6 +39,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+                script {
+                    loadProperties()
+                }
                 sh 'docker stop LPDM-StoreMS || true && docker rm LPDM-StoreMS || true'
                 sh 'docker pull vyjorg/lpdm-store:latest'
                 sh 'docker run -d --name LPDM-StoreMS -p 28084:28084 --link LPDM-StoreDB --restart always --memory-swappiness=0  -e "JAVA_TOOL_OPTIONS=-Djasypt.encryptor.password=${properties.store}" vyjorg/lpdm-store:latest'
