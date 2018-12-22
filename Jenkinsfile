@@ -4,7 +4,7 @@ pipeline {
         maven 'Apache Maven 3.5.2'
     }
     environment {
-        STOREKEY = ''
+        KEY = ''
     }
     stages {
         stage('Checkout') {
@@ -35,8 +35,8 @@ pipeline {
                 script {
                     configFileProvider([configFile(fileId: '2bd4e734-a03f-4fce-9015-aca988614b4e', targetLocation: 'lpdm.key')]) {
                         lpdm_keys = readJSON file: 'lpdm.key'
-                        STOREKEY = lpdm_keys.store
-                        echo "--> ${STOREKEY}"
+                        KEY = lpdm_keys.store
+                        echo "--> ${KEY}"
                     }
                 }
             }
@@ -45,8 +45,8 @@ pipeline {
             steps {
                 sh 'docker stop LPDM-StoreMS || true && docker rm LPDM-StoreMS || true'
                 sh 'docker pull vyjorg/lpdm-store:latest'
-                echo "--> ${STOREKEY}"
-                sh 'docker run -d --name LPDM-StoreMS -p 28084:28084 --link LPDM-StoreDB --restart always --memory-swappiness=0  -e "JAVA_TOOL_OPTIONS=-Djasypt.encryptor.password=$STOREKEY" vyjorg/lpdm-store:latest'
+                echo "--> ${KEY}"
+                sh "docker run -d --name LPDM-StoreMS -p 28084:28084 --link LPDM-StoreDB --restart always --memory-swappiness=0  -e 'JAVA_TOOL_OPTIONS=-Djasypt.encryptor.password=$KEY' vyjorg/lpdm-store:latest"
             }
         }
     }
