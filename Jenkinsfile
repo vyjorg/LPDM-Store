@@ -8,7 +8,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 configFileProvider([configFile(fileId: '2bd4e734-a03f-4fce-9015-aca988614b4e', variable: 'lpdm')]) {
-                    storekey = '${store}'
+                    storekey = '${lpdm.store}'
                 }
             }
         }
