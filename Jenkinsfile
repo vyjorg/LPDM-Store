@@ -4,11 +4,6 @@ pipeline {
         maven 'Apache Maven 3.5.2'
     }
     stages {
-        stage('Load Key') {
-            steps {
-
-            }
-        }
         stage('Checkout') {
             steps {
                 git 'https://github.com/vyjorg/LPDM-Store'
