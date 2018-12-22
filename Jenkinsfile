@@ -8,11 +8,9 @@ pipeline {
         stage('Load Key') {
             steps {
                 script {
-                    configFileProvider([configFile(fileId: '2bd4e734-a03f-4fce-9015-aca988614b4e', variable: 'lpdm')]) {
-                        echo '${lpdm}'
-                        def props = readJSON file: '${lpdm}'
-                        storekey = '${props.store}'
-                        echo '${storekey}'
+                    configFileProvider([configFile(fileId: '6ff497d9-5e1d-4238-824e-30f24469571a', variable: 'lpdm')]) {
+                        storekey = lpdm.getStoreKey()
+                        echo storekey
                     }
                 }
             }
