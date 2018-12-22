@@ -10,7 +10,7 @@ pipeline {
                 script {
                     configFileProvider([configFile(fileId: '2bd4e734-a03f-4fce-9015-aca988614b4e', targetLocation: 'lpdm.key')]) {
                         keys = readJSON file: 'lpdm.key'
-                        keys.store
+                        echo "--> ${keys.store}"
                     }
                 }
             }
