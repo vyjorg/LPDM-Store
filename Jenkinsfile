@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Load properties') {
             steps {
-                load "$JENKINS_HOME/.lpdm/docker-env
+                load "$JENKINS_HOME/.lpdm/docker-env"
                 echo "${order}"
                 echo "${store}"
             }
