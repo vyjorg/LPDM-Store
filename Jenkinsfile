@@ -4,16 +4,6 @@ pipeline {
         maven 'Apache Maven 3.5.2'
     }
     stages {
-        stage('Load properties') {
-            steps {
-                script {
-                    checkout scm
-                    def constants = load '$JENKINS_HOME/.lpdm/docker-env'
-                    def storePass = constants.store
-                    echo "${storePass}"
-                }
-            }
-        }
         stage('Checkout') {
             steps {
                 git 'https://github.com/vyjorg/LPDM-Store'
@@ -41,7 +31,10 @@ pipeline {
             steps {
                 sh 'docker stop LPDM-StoreMS || true && docker rm LPDM-StoreMS || true'
                 sh 'docker pull vyjorg/lpdm-store:latest'
-                sh 'docker run -d --name LPDM-StoreMS -p 28084:28084 --link LPDM-StoreDB --restart always --memory-swappiness=0  -e "JAVA_TOOL_OPTIONS=-Djasypt.encryptor.password=${properties.store}" vyjorg/lpdm-store:latest'
+                configFileProvider([configFile(fileId: '6ff497d9-5e1d-4238-824e-30f24469571a')]) {
+                    echo ${lpdm.store}
+                    sh 'docker run -d --name LPDM-StoreMS -p 28084:28084 --link LPDM-StoreDB --restart always --memory-swappiness=0  -e "JAVA_TOOL_OPTIONS=-Djasypt.encryptor.password=${lpdm.store}" vyjorg/lpdm-store:latest'
+                }
             }
         }
     }
