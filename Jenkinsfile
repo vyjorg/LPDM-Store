@@ -4,6 +4,13 @@ pipeline {
         maven 'Apache Maven 3.5.2'
     }
     stages {
+        stage('Load config') {
+            steps {
+                configFileProvider([configFile('6ff497d9-5e1d-4238-824e-30f24469571a')]) {
+                    echo '${store}'
+                }
+            }
+        }
         stage('Checkout') {
             steps {
                 git 'https://github.com/vyjorg/LPDM-Store'
