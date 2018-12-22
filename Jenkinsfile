@@ -7,8 +7,10 @@ pipeline {
     stages {
         stage('Load Key') {
             steps {
-                configFileProvider([configFile(fileId: '2bd4e734-a03f-4fce-9015-aca988614b4e', variable: 'lpdm')]) {
-                    storekey = '${lpdm.store}'
+                script {
+                    configFileProvider([configFile(fileId: '2bd4e734-a03f-4fce-9015-aca988614b4e', variable: 'lpdm')]) {
+                        storekey = '${lpdm.store}'
+                    }
                 }
             }
         }
