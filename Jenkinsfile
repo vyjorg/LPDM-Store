@@ -9,7 +9,8 @@ pipeline {
             steps {
                 script {
                     configFileProvider([configFile(fileId: '2bd4e734-a03f-4fce-9015-aca988614b4e', variable: 'lpdm')]) {
-                        def props = readJSON text: '${lpdm}'
+                        echo '${lpdm}'
+                        def props = readJSON file: '${lpdm}'
                         storekey = '${props.store}'
                         echo '${storekey}'
                     }
