@@ -6,9 +6,12 @@ pipeline {
     stages {
         stage('Load properties') {
             steps {
-                load "$JENKINS_HOME/.lpdm/docker-env"
-                echo "${order}"
-                echo "${store}"
+                script {
+                    checkout scm
+                    def constants = load '$JENKINS_HOME/.lpdm/docker-env'
+                    def storePass = constants.store
+                    echo "${storePass}"
+                }
             }
         }
         stage('Checkout') {
