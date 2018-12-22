@@ -1,17 +1,16 @@
-properties = null;
-
-def loadProperties() {
-    node {
-        properties = readProperties file: 'lpdm.properties'
-    }
-}
-
 pipeline {
     agent any
     tools {
         maven 'Apache Maven 3.5.2'
     }
     stages {
+        stage('Load properties') {
+            steps {
+                load "$JENKINS_HOME/.lpdm/docker-env
+                echo "${order}"
+                echo "${store}"
+            }
+        }
         stage('Checkout') {
             steps {
                 git 'https://github.com/vyjorg/LPDM-Store'
@@ -33,13 +32,6 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 sh 'mvn clean package'
-            }
-        }
-        stage('Load properties') {
-            steps {
-                script {
-                    loadProperties()
-                }
             }
         }
         stage('Deploy') {
