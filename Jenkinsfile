@@ -46,7 +46,7 @@ pipeline {
                 sh 'docker stop LPDM-StoreMS || true && docker rm LPDM-StoreMS || true'
                 sh 'docker pull vyjorg/lpdm-store:latest'
                 echo "--> ${storekey}"
-                sh 'docker run -d --name LPDM-StoreMS -p 28084:28084 --link LPDM-StoreDB --restart always --memory-swappiness=0  -e "JAVA_TOOL_OPTIONS=-Djasypt.encryptor.password=$storekey" vyjorg/lpdm-store:latest'
+                sh 'docker run -d --name LPDM-StoreMS -p 28084:28084 --link LPDM-StoreDB --restart always --memory-swappiness=0  -e "JAVA_TOOL_OPTIONS=-Djasypt.encryptor.password=${storekey}" vyjorg/lpdm-store:latest'
             }
         }
     }
