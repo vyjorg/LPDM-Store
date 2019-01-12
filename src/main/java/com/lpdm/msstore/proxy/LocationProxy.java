@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Component
-@FeignClient(name = "${lpdm.zuul.name}", url = "${lpdm.zuul.uri}")
-@RibbonClient("${lpdm.location.name}")
+@FeignClient(name = "zuul-server", url = "https://zuul.lpdm.kybox.fr")
+@RibbonClient("ms-location")
 public interface LocationProxy {
 
     @RequestMapping(value = "/locations/{id}",

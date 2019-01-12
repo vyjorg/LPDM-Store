@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Component
-@FeignClient(name = "${lpdm.zuul.name}", url = "${lpdm.zuul.uri}")
-@RibbonClient("${lpdm.order.name}")
+@FeignClient(name = "zuul-server", url = "https://zuul.lpdm.kybox.fr")
+@RibbonClient("ms-order")
 public interface OrderProxy {
 
     @RequestMapping(value = "orders/{id}",
