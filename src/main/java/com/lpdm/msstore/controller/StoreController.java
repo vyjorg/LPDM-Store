@@ -1,8 +1,9 @@
 package com.lpdm.msstore.controller;
 
-import com.lpdm.msstore.dao.StoreRepository;
+import com.lpdm.msstore.repository.StoreRepository;
 import com.lpdm.msstore.model.Location;
 import com.lpdm.msstore.model.Store;
+import com.lpdm.msstore.service.StoreService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,15 @@ public class StoreController {
     private final StoreRepository storeDao;
     private final LocationController locationController;
 
+    private final StoreService storeService;
+
     @Autowired
-    public StoreController(StoreRepository storeDao, LocationController locationController) {
+    public StoreController(StoreRepository storeDao,
+                           LocationController locationController,
+                           StoreService storeService) {
         this.storeDao = storeDao;
         this.locationController = locationController;
+        this.storeService = storeService;
     }
 
     @GetMapping(value = {"", "/", "/all"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -56,5 +62,10 @@ public class StoreController {
             log.warn("Store object is null");
             return null;
         }
+    }
+
+    @GetMapping(value = "/name/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Store> getStoreByName(@PathVariable String name){
+        return storeService.findStoreByName(name);
     }
 }

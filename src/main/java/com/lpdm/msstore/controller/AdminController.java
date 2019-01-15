@@ -1,11 +1,10 @@
 package com.lpdm.msstore.controller;
 
-import com.lpdm.msstore.dao.StoreRepository;
+import com.lpdm.msstore.repository.StoreRepository;
 import com.lpdm.msstore.model.Store;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

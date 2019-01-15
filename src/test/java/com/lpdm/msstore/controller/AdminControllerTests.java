@@ -1,9 +1,7 @@
 package com.lpdm.msstore.controller;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lpdm.msstore.dao.StoreRepository;
+import com.lpdm.msstore.repository.StoreRepository;
 import com.lpdm.msstore.model.Location;
 import com.lpdm.msstore.model.Store;
 import com.lpdm.msstore.utils.ObjToJson;

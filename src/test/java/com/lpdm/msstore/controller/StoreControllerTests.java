@@ -1,8 +1,9 @@
 package com.lpdm.msstore.controller;
 
-import com.lpdm.msstore.dao.StoreRepository;
+import com.lpdm.msstore.repository.StoreRepository;
 import com.lpdm.msstore.model.Location;
 import com.lpdm.msstore.model.Store;
+import com.lpdm.msstore.service.StoreService;
 import com.lpdm.msstore.utils.ObjToJson;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +37,9 @@ public class StoreControllerTests {
 
     @MockBean
     private StoreRepository storeRepository;
+
+    @MockBean
+    private StoreService storeService;
 
     private Store store;
     private List<Store> storeList;
