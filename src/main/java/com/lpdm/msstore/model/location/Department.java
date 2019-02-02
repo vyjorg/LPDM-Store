@@ -1,8 +1,11 @@
 package com.lpdm.msstore.model.location;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Department {
 
     private int id;
+    @JsonIgnore
     private String regionCode;
     private String code;
     private String name;

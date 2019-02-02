@@ -1,11 +1,14 @@
 package com.lpdm.msstore.model.location;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Address {
 
     private int id;
     private String streetNumber;
     private String streetName;
     private String complement;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int cityId;
     private City city;
 
