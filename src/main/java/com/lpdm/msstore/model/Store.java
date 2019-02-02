@@ -1,6 +1,7 @@
 package com.lpdm.msstore.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lpdm.msstore.model.location.Address;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,11 +20,11 @@ public class Store {
 
     @NotNull
     @Column(name = "address_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int addressId;
 
     @Transient
-    @JsonIgnore
-    private Location location;
+    private Address address;
 
     public Store() {
     }
@@ -52,11 +53,21 @@ public class Store {
         this.addressId = addressId;
     }
 
-    public Location getLocation() {
-        return location;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Store{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", addressId=" + addressId +
+                ", address=" + address +
+                '}';
     }
 }

@@ -1,7 +1,5 @@
 package com.lpdm.msstore.controller;
 
-import com.lpdm.msstore.repository.StoreRepository;
-import com.lpdm.msstore.model.Location;
 import com.lpdm.msstore.model.Store;
 import com.lpdm.msstore.service.StoreService;
 import com.lpdm.msstore.utils.ObjToJson;
@@ -20,7 +18,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -33,17 +30,10 @@ public class StoreControllerTests {
     private MockMvc mockMvc;
 
     @MockBean
-    private LocationController locationController;
-
-    @MockBean
-    private StoreRepository storeRepository;
-
-    @MockBean
     private StoreService storeService;
 
     private Store store;
     private List<Store> storeList;
-    private Location location;
 
     @Before
     public void init(){
@@ -52,19 +42,15 @@ public class StoreControllerTests {
         store.setId(6);
         store.setName("MyStore6");
         store.setAddressId(6);
-        store.setLocation(new Location());
 
         storeList = new ArrayList<>();
         storeList.add(store); storeList.add(store);
-
-        location = new Location();
-        location.setId(6);
     }
 
     @Test
     public void getAllStoresTest() throws Exception {
 
-        Mockito.when(storeRepository.findAll()).thenReturn(storeList);
+        Mockito.when(storeService.findAllStores()).thenReturn(storeList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/stores")
@@ -80,10 +66,7 @@ public class StoreControllerTests {
     @Test
     public void getStoreByIdTest() throws Exception {
 
-        Optional<Store> optionalStore = Optional.ofNullable(store);
-        Mockito.when(storeRepository.findById(Mockito.anyInt())).thenReturn(optionalStore);
-
-        Mockito.when(locationController.findLocationById(Mockito.anyInt())).thenReturn(location);
+        Mockito.when(storeService.findStoreById(Mockito.anyInt())).thenReturn(store);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/stores/1")

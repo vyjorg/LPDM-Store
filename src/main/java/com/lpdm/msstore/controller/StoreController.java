@@ -1,7 +1,6 @@
 package com.lpdm.msstore.controller;
 
-import com.lpdm.msstore.repository.StoreRepository;
-import com.lpdm.msstore.model.Location;
+import com.lpdm.msstore.exception.StoreNotFoundException;
 import com.lpdm.msstore.model.Store;
 import com.lpdm.msstore.service.StoreService;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/stores")
@@ -22,50 +20,46 @@ public class StoreController {
 
     private final Logger log = LogManager.getLogger(StoreController.class);
 
-    private final StoreRepository storeDao;
-    private final LocationController locationController;
-
     private final StoreService storeService;
 
     @Autowired
-    public StoreController(StoreRepository storeDao,
-                           LocationController locationController,
-                           StoreService storeService) {
-        this.storeDao = storeDao;
-        this.locationController = locationController;
+    public StoreController(StoreService storeService) {
+
         this.storeService = storeService;
     }
 
+    /**
+     * Find all {@link Store} in the database
+     * @return All {@link Store} found
+     * @throws StoreNotFoundException Thrown if no {@link Store} was found
+     */
     @GetMapping(value = {"", "/", "/all"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Store> getAllStores(){
+    public List<Store> getAllStores() throws StoreNotFoundException {
 
-        return storeDao.findAll();
+        return storeService.findAllStores();
     }
 
+    /**
+     * Find a {@link Store} by its id
+     * @param id The {@link Store} id
+     * @return The {@link Store} object found
+     * @throws StoreNotFoundException Thrown if no {@link Store} was found
+     */
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Store getStoreById(@PathVariable int id){
+    public Store getStoreById(@PathVariable int id) throws StoreNotFoundException {
 
-        Optional<Store> optionalStore = storeDao.findById(id);
-
-        if(optionalStore.isPresent()){
-
-            Store store = optionalStore.get();
-
-            Location location = locationController.findLocationById(store.getAddressId());
-            if(location != null) location.setId(store.getAddressId());
-            else log.warn("Location object is null");
-            store.setLocation(location);
-
-            return store;
-        }
-        else {
-            log.warn("Store object is null");
-            return null;
-        }
+        return storeService.findStoreById(id);
     }
 
+    /**
+     * Find a {@link Store} by its name
+     * @param name The {@link Store} name
+     * @return A {@link List} of {@link Store} objects found
+     * @throws StoreNotFoundException Thrown if no {@link Store} was found
+     */
     @GetMapping(value = "/name/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Store> getStoreByName(@PathVariable String name){
+    public List<Store> getStoreByName(@PathVariable String name) throws StoreNotFoundException {
+
         return storeService.findStoreByName(name);
     }
 }

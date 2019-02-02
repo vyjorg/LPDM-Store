@@ -2,8 +2,8 @@ package com.lpdm.msstore.controller;
 
 
 import com.lpdm.msstore.repository.StoreRepository;
-import com.lpdm.msstore.model.Location;
 import com.lpdm.msstore.model.Store;
+import com.lpdm.msstore.service.StoreService;
 import com.lpdm.msstore.utils.ObjToJson;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class AdminControllerTests {
     MockMvc mockMvc;
 
     @MockBean
-    private StoreRepository storeRepository;
+    private StoreService storeService;
 
     private Store store;
 
@@ -43,16 +43,15 @@ public class AdminControllerTests {
         store.setId(1);
         store.setName("MyStore");
         store.setAddressId(1);
-        store.setLocation(new Location());
     }
 
     @Test
     public void saveTest() throws Exception {
 
-        Mockito.when(storeRepository.save(Mockito.any(Store.class))).thenReturn(store);
+        Mockito.when(storeService.addNewStore(Mockito.any(Store.class))).thenReturn(store);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/admin/save")
+                .post("/admin/add")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjToJson.get(store));
@@ -64,20 +63,17 @@ public class AdminControllerTests {
                 .andDo(print())
                 .andReturn();
 
-        Mockito.verify(storeRepository, Mockito.times(1))
-                .save(Mockito.any(Store.class));
+        Mockito.verify(storeService, Mockito.times(1))
+                .addNewStore(Mockito.any(Store.class));
     }
 
     @Test
     public void deleteTest() throws Exception {
 
-        List<Store> storeList = new ArrayList<>();
-        storeList.add(store); storeList.add(store);
-
-        Mockito.when(storeRepository.findAll()).thenReturn(storeList);
+        Mockito.when(storeService.deleteStore(Mockito.any(Store.class))).thenReturn(true);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/admin/delete")
+                .delete("/admin/delete")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjToJson.get(store));
@@ -85,7 +81,7 @@ public class AdminControllerTests {
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(content().json(ObjToJson.get(storeList)))
+                .andExpect(content().string("true"))
                 .andDo(print())
                 .andReturn();
     }

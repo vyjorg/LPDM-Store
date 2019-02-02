@@ -1,15 +1,14 @@
 package com.lpdm.msstore.controller;
 
+import com.lpdm.msstore.exception.StoreNotFoundException;
 import com.lpdm.msstore.repository.StoreRepository;
 import com.lpdm.msstore.model.Store;
+import com.lpdm.msstore.service.StoreService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,27 +19,51 @@ public class AdminController {
 
     private final Logger log = LogManager.getLogger(StoreController.class);
 
-    private final StoreRepository storeDao;
+    private final StoreService storeService;
 
     @Autowired
-    public AdminController(StoreRepository storeDao) {
-        this.storeDao = storeDao;
+    public AdminController(StoreService storeService) {
+
+        this.storeService = storeService;
     }
 
-    @PostMapping(value = "/save",
+    /**
+     * Persist a new {@link Store} object in the database
+     * @param store The {@link Store} object to persist
+     * @return The {@link Store} object persisted
+     */
+    @PostMapping(value = "/add",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Store save(@Valid @RequestBody Store store){
+    public Store addNewStore(@Valid @RequestBody Store store){
 
-        return storeDao.save(store);
+        return storeService.addNewStore(store);
     }
-    
-    @PostMapping(value = "/delete",
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Store> delete(@Valid @RequestBody Store store){
+
+    /**
+     * Delete a {@link Store} object in the database
+     * @param store The {@link Store} object to delete
+     * @return True if the {@link Store} object was deleted, otherwise false
+     * @throws StoreNotFoundException Thrown if the {@link Store} object to delete was not found
+     */
+    @DeleteMapping(value = "/delete",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public boolean delete(@Valid @RequestBody Store store) throws StoreNotFoundException {
         
-        storeDao.delete(store);
-        return storeDao.findAll();
+        return storeService.deleteStore(store);
+    }
+
+    /**
+     * Update a {@link Store} object in the database
+     * @param store The {@link Store} object to update
+     * @return The {@link Store} object update
+     * @throws StoreNotFoundException Thrown if the {@link Store} object was not found
+     */
+    @PutMapping(value = "/update",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Store updateStore(@Valid @RequestBody Store store) throws StoreNotFoundException {
+
+        return storeService.updateStore(store);
     }
 }
