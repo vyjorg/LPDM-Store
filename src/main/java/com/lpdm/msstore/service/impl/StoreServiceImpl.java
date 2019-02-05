@@ -71,7 +71,10 @@ public class StoreServiceImpl implements StoreService {
 
         List<Store> storeList = storeRepository.findAllByNameContainingIgnoreCase(name);
 
-        for (Store store : storeList) store = addAddress(store);
+        if(storeList.isEmpty())
+            throw new StoreNotFoundException();
+
+        storeList.forEach(this::addAddress);
 
         return storeList;
     }
@@ -86,7 +89,10 @@ public class StoreServiceImpl implements StoreService {
 
         List<Store> storeList = storeRepository.findAll();
 
-        for (Store store : storeList) store = addAddress(store);
+        if(storeList.isEmpty())
+            throw new StoreNotFoundException();
+
+        storeList.forEach(this::addNewStore);
 
         return storeList;
     }
