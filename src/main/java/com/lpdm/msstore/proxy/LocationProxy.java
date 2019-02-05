@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RibbonClient("${lpdm.location.name}")
 public interface LocationProxy {
 
+
     @RequestMapping(value = "${lpdm.location.name}/address/{id}",
             method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     Address findAddressById(@PathVariable(value = "id") int id);
