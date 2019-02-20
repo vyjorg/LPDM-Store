@@ -2,6 +2,12 @@ package com.lpdm.msstore.model.location;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author Kybox
+ * @version 1.0
+ * @since 01/12/2018
+ */
+
 public class Address {
 
     private int id;

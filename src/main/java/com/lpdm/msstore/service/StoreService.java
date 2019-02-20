@@ -5,6 +5,12 @@ import com.lpdm.msstore.model.Store;
 
 import java.util.List;
 
+/**
+ * @author Kybox
+ * @version 1.0
+ * @since 01/12/2018
+ */
+
 public interface StoreService {
 
     /**
